@@ -1,16 +1,16 @@
-
 import datetime
+
 inventory = {
     "Sugar": 40,
     "Bread": 25,
     "Milk": 30,
-    "Eggs": 6,  
+    "Eggs": 6,
     "Rice": 60,
     "Soap": 18,
     "Chips": 10
 }
+
 def display_products():
-    """Displays available products and prices."""
     print("\n--- AVAILABLE PRODUCTS ---")
     print(f"{'Item':<15} {'Price (Rs)':<10}")
     print("-" * 25)
@@ -19,7 +19,6 @@ def display_products():
     print("-" * 25)
 
 def generate_bill(cart_items):
-    """Calculates total and prints the final receipt."""
     if not cart_items:
         print("\nCart is empty. No bill generated.")
         return
@@ -44,8 +43,7 @@ def generate_bill(cart_items):
     print("Thank you for shopping!\n")
 
 def main():
-    """Main program loop."""
-    cart = [] 
+    cart = []
     
     print("Welcome to the Supermarket System")
     
@@ -65,16 +63,21 @@ def main():
             item_name = input("Enter Item Name (Case Sensitive): ").strip()
             
             if item_name in inventory:
-                try:
-                    qty = int(input(f"Enter Quantity for {item_name}: "))
-                    if qty > 0:
-                        price = inventory[item_name]
-                        cart.append((item_name, qty, price))
-                        print(f"--> Added {qty} x {item_name} to cart.")
+                qty_input_valid = False
+                while not qty_input_valid:
+                    qty_str = input(f"Enter Quantity for {item_name}: ")
+                    
+                    if qty_str.isdigit():
+                        qty = int(qty_str)
+                        if qty > 0:
+                            price = inventory[item_name]
+                            cart.append((item_name, qty, price))
+                            print(f"--> Added {qty} x {item_name} to cart.")
+                            qty_input_valid = True
+                        else:
+                            print("Quantity must be greater than 0.")
                     else:
-                        print("Quantity must be greater than 0.")
-                except ValueError:
-                    print("Invalid input! Please enter a number for quantity.")
+                        print("Invalid input! Quantity must be a whole number.")
             else:
                 print("Error: Item not found in inventory.")
 
@@ -88,5 +91,6 @@ def main():
 
         else:
             print("Invalid choice. Please try again.")
+
 if __name__ == "__main__":
     main()
